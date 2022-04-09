@@ -1,5 +1,5 @@
 {% macro node_to_sql(node) %}
-  {{ return(dbt_unit_testing.quote_identifier(node.database ~ '.' ~ node.schema ~ '.' ~ node.name))}}
+  {{ return(dbt_unit_testing.quote_identifier(node.database ~ '.' ~ node.schema ~ '.' ~ node.identifier)) }}
 {% endmacro %}
 
 {% macro build_model_complete_sql(model_node, mocked_models, options) %}
@@ -101,7 +101,7 @@
   {% set source_relation = dbt_utils.get_relations_by_pattern(
       database=node.database,
       schema_pattern=node.schema,
-      table_pattern=node.name
+      table_pattern=node.identifier
   ) %}
   {% if source_relation | length > 0 %}
     {%- set source_sql -%}
